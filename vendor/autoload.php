@@ -1,13 +1,11 @@
 <?php
  
-<?php
- 
 
 function Autoload($class) {
     
-    $class = WWW_ROOT.DS. str_replace("\", DS, $class) . '.php';
+    $class = WWW_ROOT.DS. str_replace("\\", DS, $class) . '.php';
   
-    $array =  explode('/',$class);
+    $array =  explode('\\',$class);
     $array = array_filter($array);
     
     $filename = '';
@@ -34,7 +32,7 @@ function Autoload($class) {
   
     }
     
-    $filename = '/'.implode('/',$array);
+    $filename = '\\'.implode('\\',$array);
      
     if(!file_exists($filename))
         throw new Exception("File path $class not found.");
@@ -42,5 +40,4 @@ function Autoload($class) {
     require $filename;
     
 }
-spl_autoload_register('Autoload');
 spl_autoload_register('Autoload');
