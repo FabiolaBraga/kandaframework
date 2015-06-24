@@ -1,38 +1,42 @@
 <?php
- 
-
-function Autoload($class) {
-    
-    $class = WWW_ROOT.DS. str_replace("\\", DS, $class) . '.php';
   
-    $array =  explode('\\',$class);
-    $array = array_filter($array);
+function Autoload($class) {
+     
+	switch(PHP_OS){
+		 
+	  case 'WINNT':
+	   $key = 4;$dilimitador = '';
+		break;
+	  default:
+	  //Para Linux ou Mac
+	  $key = 3;$dilimitador = '/';
+	
+	}
+	
+    $class = WWW_ROOT.DS. str_replace('\\', DS, $class) . '.php';
     
-    $filename = '';
-    
-    $basedir = 'vendor/kandaframework/Kanda';
-            
-    
+    $array =  explode(DS,$class);
+           
+    $baseroot = "vendor".DS."kandaframework".DS."Kanda";
+       
     foreach ($array as $param){
-
-        
-        switch ($array[3]){
+   
+        switch ($array[$key]){
             
             case 'app':
-                $array[3] = $basedir.'/app';
+                $array[$key] = $baseroot.DS."app";
                 break;
             case 'base':
-                $array[3] = $basedir.'/base';
+                $array[$key] = $baseroot.DS."base";
                 break;
             case 'helps':
-                $array[3] = $basedir.'/helps';
+                $array[$key] = $baseroot.DS."helps";
                 break;                  
             
         }
   
     }
-    
-    $filename = '\\'.implode('\\',$array);
+    $filename = $dilimitador.implode(DS,$array);
      
     if(!file_exists($filename))
         throw new Exception("File path $class not found.");
